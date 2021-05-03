@@ -51,9 +51,8 @@ public class PredictionController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/poll")
-    public MatchPoll getMatchPoll(@RequestBody Map<String, Object> pollData) {
-        int matchId = (int) pollData.get("matchId");
-        return this.predictionService.getPollData(matchId);
+    public List<MatchPoll> getMatchPoll() {
+        return this.predictionService.getNextMatchPollData();
     }
 
 

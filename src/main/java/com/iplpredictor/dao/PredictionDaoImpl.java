@@ -76,8 +76,15 @@ public class PredictionDaoImpl implements PredictionDao {
     public MatchPoll getPollData(int matchId) {
         Map<String, Object> params = new HashMap<>();
         params.put("matchId", matchId);
-        List<MatchPoll> matchPolls = this.template.query("select * from matchPoll where matchId = :matchId", params, new MatchPollMapper());
+        List<MatchPoll> matchPolls = this.template.query("select a.*, b.oppositiona, b.oppositionb from matchPoll a inner join matches b on a.matchId = b.id where a.matchId = :matchId", params, new MatchPollMapper());
         return matchPolls.get(0);
+    }
+
+    @Override
+    public List<MatchPoll> getNextMatchPollData() {
+        Map<String, Object> params = new HashMap<>();
+        List<MatchPoll> matchPolls = this.template.query("select a.*, b.oppositiona, b.oppositionb from matchPoll a inner join matches b on a.matchId = b.id where b.matchover=false limit 2", params, new MatchPollMapper());
+        return matchPolls;
     }
 
     @Override
@@ -89,7 +96,7 @@ public class PredictionDaoImpl implements PredictionDao {
     public PointsTable getPointsTable() {
         List<TeamStat> teamStats = template.query("select * from points_table", new HashMap<>(), new PointsTableMapper());
         PointsTable pointsTable = new PointsTable();
-        TeamStat[] teamStatsArr = Arrays.copyOf(teamStats.toArray(), 8 , TeamStat[].class);
+        TeamStat[] teamStatsArr = Arrays.copyOf(teamStats.toArray(), 8, TeamStat[].class);
         pointsTable.setTeamStats(teamStatsArr);
         return pointsTable;
     }

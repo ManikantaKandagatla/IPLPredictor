@@ -10,10 +10,12 @@ public class MatchPollMapper implements RowMapper<MatchPoll> {
 
     @Override
     public MatchPoll mapRow(ResultSet rs, int arg1) throws SQLException {
-        MatchPoll matchPoll = new MatchPoll();
-        matchPoll.setMatchId(rs.getInt("matchId"));
-        matchPoll.setOppositionACount(rs.getLong("opponentA_count"));
-        matchPoll.setOppositionBCount(rs.getLong("opponentB_count"));
+        int matchId = rs.getInt("matchId");
+        long countA = rs.getLong("opponentA_count");
+        long countB = rs.getLong("opponentB_count");
+        int teamAid = rs.getInt("oppositionA");
+        int teamBid = rs.getInt("oppositionB");
+        MatchPoll matchPoll = new MatchPoll(matchId, teamAid, countA, teamBid, countB);
         return matchPoll;
     }
 }

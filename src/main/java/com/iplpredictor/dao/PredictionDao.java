@@ -15,6 +15,7 @@ public interface PredictionDao {
     List<Match> getNextMatch(long dayNum);
     boolean updatePoll(int matchId, int teamId);
     MatchPoll getPollData(int matchId);
+    List<MatchPoll> getNextMatchPollData();
     List<Match> getAllMatches();
     PointsTable getPointsTable();
 }

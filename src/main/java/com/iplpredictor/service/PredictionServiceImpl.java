@@ -109,6 +109,11 @@ public class PredictionServiceImpl implements PredictionService {
     }
 
     @Override
+    public List<MatchPoll> getNextMatchPollData() {
+        return this.predictionDao.getNextMatchPollData();
+    }
+
+    @Override
     public List<Match> getAllMatches() {
         return this.predictionDao.getAllMatches();
     }

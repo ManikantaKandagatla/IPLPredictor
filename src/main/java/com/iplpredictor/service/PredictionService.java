@@ -14,5 +14,5 @@ public interface PredictionService {
     MatchPoll getPollData(int matchId);
     List<Match> getAllMatches();
     PointsTable getPointsTable();
-
+    List<MatchPoll> getNextMatchPollData();
 }
