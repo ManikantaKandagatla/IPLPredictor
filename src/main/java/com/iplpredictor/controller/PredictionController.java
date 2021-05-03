@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin
 @RestController
 public class PredictionController {
 
@@ -50,15 +51,19 @@ public class PredictionController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/poll")
-    public MatchPoll getMatchPoll(@RequestBody Map<String, Object> pollData) {
-        int matchId = (int) pollData.get("matchId");
-        return this.predictionService.getPollData(matchId);
+    public List<MatchPoll> getMatchPoll() {
+        return this.predictionService.getNextMatchPollData();
     }
 
 
     @RequestMapping(method = RequestMethod.GET, path = "/matches")
     public List<Match> getAllMatches() {
         return this.predictionService.getAllMatches();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/pointsTable")
+    public PointsTable getPointsTable() {
+        return this.predictionService.getPointsTable();
     }
 
 }

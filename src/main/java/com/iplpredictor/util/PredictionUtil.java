@@ -88,7 +88,7 @@ public class PredictionUtil {
 
         boolean result = predict(homeTeam, predictedTeamStats, predictedMatchResults, ELAPSED_MATCHES+1);
         PointsTable predictedPointsTable =  this.buildPointsTable(predictedTeamStats);
-        return new PredictionResult(predictedMatchResults, predictedTeamStats, predictedPointsTable);
+        return new PredictionResult(predictedMatchResults, predictedPointsTable);
     }
 
     private TeamStat[] buildTeamStat(Match[] matches) {

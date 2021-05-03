@@ -1,14 +1,20 @@
 package com.iplpredictor.model;
 
-public class TeamStat {
+import java.io.Serializable;
+
+public class TeamStat implements Serializable {
     private final int id;
     public int noOfMatches;
     public int noOfWins;
     public int noOfDefeats;
     public int noOfMatchesWithNR;
     public int points;
-    public int netRunRate;
+    public float netRunRate;
     public TeamStat teamStat;
+
+    public TeamStat() {
+        this.id = -1;
+    }
 
     public TeamStat(int id) {
         this.id = id;
@@ -82,11 +88,15 @@ public class TeamStat {
         this.points = 2 * noOfWins + noOfMatchesWithNR;
     }
 
-    public int getNetRunRate() {
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public float getNetRunRate() {
         return netRunRate;
     }
 
-    public void setNetRunRate(int netRunRate) {
+    public void setNetRunRate(float netRunRate) {
         this.netRunRate = netRunRate;
     }
 

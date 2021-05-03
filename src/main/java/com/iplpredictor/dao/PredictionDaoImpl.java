@@ -2,12 +2,12 @@ package com.iplpredictor.dao;
 
 import com.iplpredictor.mapper.MatchMapper;
 import com.iplpredictor.mapper.MatchPollMapper;
-import com.iplpredictor.model.Match;
-import com.iplpredictor.model.MatchPoll;
-import com.iplpredictor.model.Schedule;
+import com.iplpredictor.mapper.PointsTableMapper;
+import com.iplpredictor.model.*;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,13 +76,29 @@ public class PredictionDaoImpl implements PredictionDao {
     public MatchPoll getPollData(int matchId) {
         Map<String, Object> params = new HashMap<>();
         params.put("matchId", matchId);
-        List<MatchPoll> matchPolls = this.template.query("select * from matchPoll where matchId = :matchId", params, new MatchPollMapper());
+        List<MatchPoll> matchPolls = this.template.query("select a.*, b.oppositiona, b.oppositionb from matchPoll a inner join matches b on a.matchId = b.id where a.matchId = :matchId", params, new MatchPollMapper());
         return matchPolls.get(0);
+    }
+
+    @Override
+    public List<MatchPoll> getNextMatchPollData() {
+        Map<String, Object> params = new HashMap<>();
+        List<MatchPoll> matchPolls = this.template.query("select a.*, b.oppositiona, b.oppositionb from matchPoll a inner join matches b on a.matchId = b.id where b.matchover=false limit 2", params, new MatchPollMapper());
+        return matchPolls;
     }
 
     @Override
     public List<Match> getAllMatches() {
         return template.query("select * from matches order by id", new HashMap<>(), new MatchMapper());
+    }
+
+    @Override
+    public PointsTable getPointsTable() {
+        List<TeamStat> teamStats = template.query("select * from points_table", new HashMap<>(), new PointsTableMapper());
+        PointsTable pointsTable = new PointsTable();
+        TeamStat[] teamStatsArr = Arrays.copyOf(teamStats.toArray(), 8, TeamStat[].class);
+        pointsTable.setTeamStats(teamStatsArr);
+        return pointsTable;
     }
 
 }

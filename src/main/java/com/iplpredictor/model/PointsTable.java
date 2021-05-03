@@ -2,9 +2,11 @@ package com.iplpredictor.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.relational.core.sql.In;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -12,7 +14,8 @@ import java.util.Map;
 
 @Slf4j
 @Data
-public class PointsTable {
+@ToString
+public class PointsTable implements Serializable {
     TeamStat[] teamStats;
 
     public PointsTable() {
